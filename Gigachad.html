@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>GIGA-CHAD OPS</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #09090b;
+            --surface: #0f0f12;
+            --surface2: #141417;
+            --border: #1e1e22;
+            --border-light: #2a2a2e;
+            --text: #e4e4e7;
+            --text-dim: #a1a1aa;
+            --text-muted: #71717a;
+            --text-faint: #52525b;
+            --red: #FF3F34;
+            --orange: #FFA801;
+            --green: #05C46B;
+            --purple: #A55EEA;
+            --blue: #3C91E6;
+            --teal: #2ED573;
+            --pink: #FC5C65;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Mono', monospace;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: none;
+        }
+
+        body {
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            grid-template-rows: auto auto 1fr;
+            height: 100vh;
+        }
+
+        /* ── Header ── */
+        .hdr {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .hdr::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            right: 20px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--red) 0%, var(--orange) 50%, var(--purple) 100%);
+            opacity: 0.4;
+        }
+
+        .hdr-left {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+        }
+
+        .hdr-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        .hdr-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .hdr-title span {
+            background: linear-gradient(135deg, var(--red), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hdr-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hdr-clock {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text);
+        }
+
+        .hdr-date {
+            font-size: 10px;
+            color: var(--text-faint);
+            letter-spacing: 0.5px;
+        }
+
+        .hdr-phase {
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .hdr-now {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .hdr-now-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--red);
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* ── KPI Bar ── */
+        .kpi-bar {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .kpi {
+            background: var(--bg);
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        .kpi-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .kpi-lbl {
+            font-size: 7px;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 2px;
+        }
+
+        /* ── Schedule (left) ── */
+        .sched {
+            grid-column: 1;
+            overflow-y: auto;
+            padding: 10px 16px 10px 20px;
+            border-right: 1px solid var(--border);
+            scrollbar-width: none;
+        }
+
+        .sched::-webkit-scrollbar {
+            display: none;
+        }
+
+        .phase-lbl {
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            margin: 8px 0 4px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .phase-lbl:first-child {
+            margin-top: 0;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 94px 4px 1fr auto;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 10px;
+            margin-bottom: 3px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .row.now {
+            border-color: var(--red);
+            background: rgba(255, 63, 52, 0.06);
+        }
+
+        .row.now .r-time {
+            color: var(--red);
+        }
+
+        .row.now .r-ev {
+            color: #fafafa;
+        }
+
+        .r-time {
+            font-size: 9.5px;
+            color: var(--text-faint);
+            font-weight: 400;
+            letter-spacing: 0.2px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .r-pip {
+            width: 3px;
+            height: 20px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .r-ev {
+            font-size: 11.5px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            letter-spacing: -0.1px;
+        }
+
+        .r-tag {
+            font-size: 7px;
+            font-weight: 500;
+            letter-spacing: 1.2px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* ── Panel (right) ── */
+        .panel {
+            grid-column: 2;
+            padding: 12px 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scrollbar-width: none;
+        }
+
+        .panel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pnl-sec {
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pnl-sec:last-child {
+            border-bottom: none;
+        }
+
+        .pnl-title {
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-bottom: 8px;
+        }
+
+        /* Rotation rows */
+        .rot-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .rot-row:last-child {
+            border-bottom: none;
+        }
+
+        .rot-lbl {
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        .rot-val {
+            font-size: 10px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Streak grid */
+        .streak-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+
+        .streak-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .streak-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .streak-lbl {
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        /* Urge card */
+        .urge-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--red);
+            border-radius: 0 6px 6px 0;
+            padding: 10px 12px;
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .urge-box strong {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .urge-box .replacement {
+            color: var(--green);
+        }
+
+        /* Quote */
+        .quote-text {
+            font-size: 10px;
+            color: var(--text-muted);
+            line-height: 1.55;
+            font-style: italic;
+        }
+
+        .quote-author {
+            font-size: 8px;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text-faint);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* Ground Rules compact */
+        .rules-row {
+            display: flex;
+            gap: 6px;
+            padding: 3px 0;
+            font-size: 9px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .rules-row .rule-id {
+            color: var(--text-faint);
+            font-weight: 600;
+            flex-shrink: 0;
+            min-width: 22px;
+        }
+
+        /* Footer */
+        .footer {
+            font-size: 7px;
+            color: var(--text-faint);
+            text-align: center;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: auto;
+            padding-top: 6px;
+        }
+
+        /* Mute toggle */
+        .mute-btn {
+            position: fixed;
+            bottom: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: all 0.15s;
+        }
+
+        .mute-btn:hover {
+            border-color: var(--border-light);
+        }
+
+        .mute-btn.muted {
+            opacity: 0.4;
+        }
+
+        /* Announcement toast */
+        .announce-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 32px;
+            text-align: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .announce-toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .announce-toast .at-time {
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--red), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .announce-toast .at-event {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 4px;
+        }
+
+        .announce-toast .at-tag {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-faint);
+            margin-top: 6px;
+        }
+
+        /* Portrait fallback */
+        @media (orientation: portrait) {
+            body {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto 1fr auto;
+            }
+
+            .sched {
+                border-right: none;
+            }
+
+            .panel {
+                grid-column: 1;
+                border-top: 1px solid var(--border);
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 10px 16px;
+            }
+
+            .pnl-sec {
+                flex: 1;
+                min-width: 140px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hdr" id="hdr"></div>
+    <div class="kpi-bar" id="kpiBar"></div>
+    <div class="sched" id="sched"></div>
+    <div class="panel" id="panel"></div>
+
+    <button class="mute-btn" id="muteBtn" onclick="toggleMute()" title="Toggle announcements">🔊</button>
+    <div class="announce-toast" id="announceToast">
+        <div class="at-time" id="atTime"></div>
+        <div class="at-event" id="atEvent"></div>
+        <div class="at-tag" id="atTag"></div>
+    </div>
+
+    <script>
+        const PILLARS = {
+            fitness: { color: "#FF3F34", label: "Fitness" },
+            productivity: { color: "#FFA801", label: "Work" },
+            learning: { color: "#05C46B", label: "Learning" },
+            mindset: { color: "#A55EEA", label: "Mindset" },
+            routine: { color: "#3C91E6", label: "Routine" },
+            recovery: { color: "#2ED573", label: "Recovery" },
+            personal: { color: "#FC5C65", label: "Personal" },
+        };
+
+        const SCHEDULE = [
+            { phase: "PRE-WORK", start: "07:00", end: "07:30", event: "Wake + Time with Abe", pillar: "personal", tag: "" },
+            { start: "07:30", end: "08:00", event: "Freshen Up + Pre-Workout", pillar: "fitness", tag: "" },
+            { start: "08:00", end: "10:00", event: "GYM — Build the Machine", pillar: "fitness", tag: "DEEP SESSION" },
+            { start: "10:00", end: "10:30", event: "Shower + Protein Breakfast", pillar: "fitness", tag: "" },
+            { start: "10:30", end: "11:00", event: "Read: Psycho-Cybernetics", pillar: "learning", tag: "PRIMING" },
+            { phase: "WORK 11:00–20:30", start: "11:00", end: "11:15", event: "Login + Quick Scan", pillar: "routine", tag: "15 MIN" },
+            { start: "11:15", end: "13:30", event: "DEEP WORK — Block 1", pillar: "productivity", tag: "PEAK FOCUS" },
+            { start: "13:30", end: "14:00", event: "Wrap Block 1 + Prep", pillar: "productivity", tag: "" },
+            { start: "14:00", end: "15:00", event: "Lunch + Walk + Screen Break", pillar: "recovery", tag: "RECHARGE" },
+            { start: "15:00", end: "17:45", event: "DEEP WORK — Block 2", pillar: "productivity", tag: "POWER BLOCK" },
+            { start: "17:45", end: "18:00", event: "Pre-Calls Prep", pillar: "productivity", tag: "" },
+            { start: "18:00", end: "20:30", event: "Standups + Stakeholder Calls", pillar: "productivity", tag: "DYNAMIC" },
+            { phase: "POST-WORK", start: "20:30", end: "21:00", event: "Dinner — Clean Fuel", pillar: "fitness", tag: "" },
+            { start: "21:00", end: "22:00", event: "Time with Abe", pillar: "personal", tag: "SACRED" },
+            { start: "22:00", end: "22:45", event: "Learning — Courses", pillar: "learning", tag: "SKILL" },
+            { start: "22:45", end: "23:00", event: "Night Ritual + Journal", pillar: "routine", tag: "LOG" },
+            { start: "23:00", end: "07:00", event: "SLEEP — Full Recovery", pillar: "recovery", tag: "8 HRS" },
+        ];
+
+        const COURSES = { 0: "Review + Obsidian", 1: "Finance", 2: "AI / ML", 3: "Vibe Coding", 4: "Finance", 5: "AI / ML", 6: "Vibe Coding Project" };
+        const GYM = { 0: "Rest / Recovery", 1: "Push (Chest/Shoulders/Tri)", 2: "Pull (Back/Biceps)", 3: "Legs + HIIT", 4: "Push (Chest/Shoulders/Tri)", 5: "Pull (Back/Biceps)", 6: "Legs + HIIT" };
+
+        const QUOTES = [
+            { t: "The self-image is the key to human personality and behavior.", a: "Maxwell Maltz" },
+            { t: "You act and feel not according to what things are really like, but according to the image your mind holds.", a: "Maxwell Maltz" },
+            { t: "Within you right now is the power to do things you never dreamed possible.", a: "Maxwell Maltz" },
+            { t: "We must have courage to bet on our ideas, to take the calculated risk, and to act.", a: "Maxwell Maltz" },
+            { t: "Close scrutiny will show that most crisis situations are opportunities to either advance, or stay where you are.", a: "Maxwell Maltz" },
+            { t: "Accept yourself. Be yourself. You don't have to prove yourself.", a: "Maxwell Maltz" },
+            { t: "A human being always acts and performs in accordance with what he imagines to be true about himself.", a: "Maxwell Maltz" },
+        ];
+
+        const PHASE_COLORS = { "PRE-WORK": "#FFA801", "WORK 11:00–20:30": "#FF3F34", "POST-WORK": "#A55EEA" };
+
+        const TAG_COLORS = {
+            "DEEP SESSION": "#FF3F34", "PEAK FOCUS": "#FFA801", "POWER BLOCK": "#FFA801",
+            "PRIMING": "#05C46B", "SKILL": "#05C46B", "RECHARGE": "#2ED573",
+            "DYNAMIC": "#3C91E6", "15 MIN": "#FC5C65", "LOG": "#A55EEA",
+            "SACRED": "#FC5C65", "8 HRS": "#2ED573",
+        };
+
+        const RULES = [
+            { id: "R1", text: "Don't negotiate with cravings. Execute replacement.", color: "#FF3F34" },
+            { id: "R2", text: "No fried food. You're fueling a machine.", color: "#FF3F34" },
+            { id: "R3", text: "Phone airplane mode at 23:00.", color: "#FF3F34" },
+            { id: "R4", text: "Missed gym? Walk 30 min. No zero days.", color: "#FF3F34" },
+            { id: "R5", text: "Email + LinkedIn = 15 min timer.", color: "#FFA801" },
+            { id: "R6", text: "Deep Work = DND, one task at a time.", color: "#FFA801" },
+            { id: "R7", text: "Call gaps = learning, not scrolling.", color: "#FFA801" },
+            { id: "R8", text: "Finish one course before starting another.", color: "#05C46B" },
+            { id: "R9", text: "Every session → one Obsidian note.", color: "#05C46B" },
+            { id: "R10", text: "Track streaks daily. Streaks build identity.", color: "#A55EEA" },
+        ];
+
+        function toMin(t) { const [h, m] = t.split(":").map(Number); return h * 60 + m; }
+
+        // ── Speech Announcement System ──
+        let isMuted = false;
+        let lastAnnouncedIdx = -1;
+
+        // Custom voice lines for each schedule block
+        const ANNOUNCEMENTS = {
+            "Wake + Time with Abe": "Good morning, Giga Chad. Time with Abe. No phone. Be present.",
+            "Freshen Up + Pre-Workout": "Get gym ready. Fuel up. You know what you're hitting today.",
+            "GYM — Build the Machine": "Gym time. Build the machine. Progressive overload. Push your limits.",
+            "Shower + Protein Breakfast": "Protein breakfast. Zero fried food. Fuel the machine.",
+            "Read: Psycho-Cybernetics": "Reading time. Psycho Cybernetics. Program the self-image before work.",
+            "Login + Quick Scan": "Quick scan only. 15 minutes max. Emails, LinkedIn, Top 3 tasks. Set the timer.",
+            "DEEP WORK — Block 1": "Deep Work Block 1. Peak focus. Phone on D N D. Attack task number 1. Let's go.",
+            "Wrap Block 1 + Prep": "Wrap up Block 1. Check messages. Prep task number 2.",
+            "Lunch + Walk + Screen Break": "Lunch and screen break. Walk after eating. Hydrate. Recharge.",
+            "DEEP WORK — Block 2": "Deep Work Block 2. Power block. Complete tasks 2 and 3. No coasting.",
+            "Pre-Calls Prep": "Pre-calls prep. Update the agility board. Get your talking points ready.",
+            "Standups + Stakeholder Calls": "Calls block starting. Use the gaps for learning, not scrolling.",
+            "Dinner — Clean Fuel": "Dinner time. Clean fuel only. High protein. Not in front of a screen.",
+            "Time with Abe": "Time with Abe. Be fully present. No multitasking.",
+            "Learning — Courses": "Learning hour. Course time. End with one Obsidian note.",
+            "Night Ritual + Journal": "Night ritual. Rate your 4 pillars. Log the win. Update streaks. Phone on airplane mode.",
+            "SLEEP — Full Recovery": "Lights out. 8 hours of recovery. The Giga Chad doesn't negotiate with sleep.",
+        };
+
+        function speak(text) {
+            if (isMuted || !window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.95;
+            utterance.pitch = 0.9;
+            utterance.volume = 1;
+            // Try to pick a good English voice
+            const voices = window.speechSynthesis.getVoices();
+            const preferred = voices.find(v => v.lang.startsWith("en") && v.name.toLowerCase().includes("male"))
+                || voices.find(v => v.lang.startsWith("en-") && !v.name.toLowerCase().includes("female"))
+                || voices.find(v => v.lang.startsWith("en"));
+            if (preferred) utterance.voice = preferred;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function showToast(time, event, tag) {
+            const toast = document.getElementById("announceToast");
+            document.getElementById("atTime").textContent = time;
+            document.getElementById("atEvent").textContent = event;
+            document.getElementById("atTag").textContent = tag || "";
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 4000);
+        }
+
+        function checkAndAnnounce(activeIdx) {
+            if (activeIdx < 0 || activeIdx === lastAnnouncedIdx) return;
+            lastAnnouncedIdx = activeIdx;
+            const item = SCHEDULE[activeIdx];
+            const timeStr = item.start;
+            const msg = ANNOUNCEMENTS[item.event] || `It's ${timeStr}. ${item.event}.`;
+
+            // Show visual toast
+            showToast(timeStr, item.event, item.tag);
+
+            // Speak with a slight delay so toast shows first
+            setTimeout(() => speak(msg), 500);
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const btn = document.getElementById("muteBtn");
+            btn.textContent = isMuted ? "🔇" : "🔊";
+            btn.classList.toggle("muted", isMuted);
+            if (isMuted) {
+                window.speechSynthesis && window.speechSynthesis.cancel();
+            } else {
+                // Test voice on unmute
+                speak("Announcements on.");
+            }
+        }
+
+        // Preload voices (Chrome needs this)
+        if (window.speechSynthesis) {
+            window.speechSynthesis.getVoices();
+            window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+        }
+
+        function render() {
+            const now = new Date();
+            const nowMin = now.getHours() * 60 + now.getMinutes();
+            const dow = now.getDay();
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const hh = String(now.getHours()).padStart(2, "0");
+            const mm = String(now.getMinutes()).padStart(2, "0");
+
+            // Find active schedule item
+            let activeIdx = -1;
+            SCHEDULE.forEach((s, i) => {
+                let sMin = toMin(s.start), eMin = toMin(s.end);
+                if (eMin <= sMin) eMin += 1440;
+                let check = nowMin;
+                if (s.start === "23:00" && nowMin < 420) check += 1440;
+                if (check >= sMin && check < eMin) activeIdx = i;
+            });
+
+            const phase = nowMin < 660 ? "PRE-WORK" : nowMin < 1230 ? "WORK 11:00–20:30" : "POST-WORK";
+            const phColor = PHASE_COLORS[phase];
+
+            // Header
+            document.getElementById("hdr").innerHTML = `
+    <div class="hdr-left">
+      <div>
+        <div class="hdr-logo">Project</div>
+        <div class="hdr-title"><span>Giga-Chad</span> Ops</div>
+      </div>
+      <div class="hdr-date">${days[dow]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}</div>
+      <div class="hdr-phase" style="color:${phColor};background:${phColor}12;border:1px solid ${phColor}25">${phase}</div>
+      ${activeIdx >= 0 ? `<div class="hdr-now" style="color:var(--red);background:rgba(255,63,52,0.08);border:1px solid rgba(255,63,52,0.15)"><span class="hdr-now-dot"></span>NOW: ${SCHEDULE[activeIdx].event}</div>` : ""}
+    </div>
+    <div class="hdr-right">
+      <div class="hdr-clock">${hh}:${mm}</div>
+    </div>`;
+
+            // KPIs
+            const kpis = [
+                { v: "~5h", l: "Deep Work", c: "#FFA801" },
+                { v: "~1.5h", l: "Learning", c: "#05C46B" },
+                { v: "2h", l: "Gym", c: "#FF3F34" },
+                { v: "8h", l: "Sleep", c: "#2ED573" },
+                { v: "30m", l: "Book", c: "#3C91E6" },
+            ];
+            document.getElementById("kpiBar").innerHTML = kpis.map(k =>
+                `<div class="kpi"><div class="kpi-val" style="color:${k.c}">${k.v}</div><div class="kpi-lbl">${k.l}</div></div>`
+            ).join("");
+
+            // Schedule
+            let schedHTML = "";
+            let lastPhase = "";
+            SCHEDULE.forEach((s, i) => {
+                if (s.phase && s.phase !== lastPhase) {
+                    lastPhase = s.phase;
+                    const pc = PHASE_COLORS[s.phase] || "#52525b";
+                    schedHTML += `<div class="phase-lbl" style="color:${pc};background:${pc}10;border:1px solid ${pc}20">${s.phase}</div>`;
+                }
+                const p = PILLARS[s.pillar];
+                const isNow = i === activeIdx;
+                const tc = TAG_COLORS[s.tag] || "#52525b";
+                schedHTML += `
+      <div class="row${isNow ? " now" : ""}">
+        <span class="r-time">${s.start} – ${s.end}</span>
+        <span class="r-pip" style="background:${p.color}"></span>
+        <span class="r-ev">${isNow ? "▸ " : ""}${s.event}</span>
+        ${s.tag ? `<span class="r-tag" style="color:${tc};background:${tc}12;border:1px solid ${tc}25">${s.tag}</span>` : "<span></span>"}
+      </div>`;
+            });
+            document.getElementById("sched").innerHTML = schedHTML;
+
+            // Check for block transition and announce
+            checkAndAnnounce(activeIdx);
+
+            // Panel
+            const course = COURSES[dow] || "—";
+            const gym = GYM[dow] || "—";
+            const quote = QUOTES[dow % QUOTES.length];
+
+            const courseColor = course.includes("Finance") ? "#FFA801" : course.includes("AI") ? "#A55EEA" : course.includes("Vibe") ? "#05C46B" : "#2ED573";
+
+            document.getElementById("panel").innerHTML = `
+    <div class="pnl-sec">
+      <div class="pnl-title">Today's Rotation</div>
+      <div class="rot-row">
+        <span class="rot-lbl">📖 Book</span>
+        <span class="rot-val" style="color:#3C91E6">Psycho-Cybernetics</span>
+      </div>
+      <div class="rot-row">
+        <span class="rot-lbl">📚 Course</span>
+        <span class="rot-val" style="color:${courseColor}">${course}</span>
+      </div>
+      <div class="rot-row">
+        <span class="rot-lbl">🏋️ Gym</span>
+        <span class="rot-val" style="color:var(--red)">${gym}</span>
+      </div>
+    </div>
+
+    <div class="pnl-sec">
+      <div class="pnl-title">Streak Tracker</div>
+      <div class="streak-grid">
+        ${[
+                    { l: "Gym", c: "#FF3F34" },
+                    { l: "Smoke-Free", c: "#2ED573" },
+                    { l: "Clean Content", c: "#A55EEA" },
+                    { l: "Deep Work", c: "#FFA801" },
+                    { l: "Book Read", c: "#3C91E6" },
+                    { l: "Course Done", c: "#05C46B" },
+                ].map(s => `
+          <div class="streak-item">
+            <div class="streak-dot" style="background:${s.c};box-shadow:0 0 6px ${s.c}40"></div>
+            <span class="streak-lbl">${s.l}</span>
+          </div>`).join("")}
+      </div>
+    </div>
+
+    <div class="pnl-sec">
+      <div class="pnl-title">Urge Protocol</div>
+      <div class="urge-box">
+        <strong>Craving?</strong> 3-second window.<br>
+        🚭 Smoke → <span class="replacement">10 pushups + breathe</span><br>
+        📵 Scroll → <span class="replacement">Close app + 5 min walk</span><br>
+        🛡️ Urge → <span class="replacement">Cold water + Obsidian</span><br>
+        <strong>It passes in 10 min.</strong>
+      </div>
+    </div>
+
+    <div class="pnl-sec">
+      <div class="pnl-title">Ground Rules</div>
+      ${RULES.map(r => `
+        <div class="rules-row">
+          <span class="rule-id" style="color:${r.color}">${r.id}</span>
+          <span>${r.text}</span>
+        </div>`).join("")}
+    </div>
+
+    <div class="pnl-sec">
+      <div class="pnl-title">Self-Image</div>
+      <div class="quote-text">"${quote.t}"</div>
+      <div class="quote-author">— ${quote.a}</div>
+    </div>
+
+    <div class="footer">Auto-refresh 30s · Voice ${isMuted ? "OFF" : "ON"} · ${hh}:${mm}</div>
+  `;
+        }
+
+        render();
+        setInterval(render, 30000);
+
+        // Also re-render on page visibility change (tablet wake from sleep)
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) {
+                lastAnnouncedIdx = -1; // Reset so it announces current block on wake
+                render();
+            }
+        });
+    </script>
+</body>
+
+</html>
