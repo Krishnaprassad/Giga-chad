@@ -10,7 +10,7 @@
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="giga-chad.css">
 </head>
@@ -32,67 +32,84 @@
     <script>
         const PILLARS = {
             fitness: { color: "#FF3F34", label: "Fitness" },
-            productivity: { color: "#FFA801", label: "Work" },
-            learning: { color: "#05C46B", label: "Learning" },
-            mindset: { color: "#A55EEA", label: "Mindset" },
+            productivity: { color: "#FDA501", label: "Work" },
+            learning: { color: "#05C161", label: "Learning" },
+            mindset: { color: "#9C5CE9", label: "Mindset" },
             routine: { color: "#3C91E6", label: "Routine" },
             recovery: { color: "#2ED573", label: "Recovery" },
-            personal: { color: "#FC5C65", label: "Personal" },
+            personal: { color: "#3C91E6", label: "Personal" },
         };
 
         const SCHEDULE = [
-            { phase: "PRE-WORK", start: "07:00", end: "07:30", event: "Wake + Time with Abe", pillar: "personal", tag: "" },
+            { phase: "PRE-WORK", phaseTime: "07:00 - 11:00", start: "07:00", end: "07:30", event: "Wake up + Time with Abe", pillar: "personal", tag: "" },
             { start: "07:30", end: "08:00", event: "Freshen Up + Pre-Workout", pillar: "fitness", tag: "" },
-            { start: "08:00", end: "10:00", event: "GYM — Build the Machine", pillar: "fitness", tag: "DEEP SESSION" },
-            { start: "10:00", end: "10:30", event: "Shower + Protein Breakfast", pillar: "fitness", tag: "" },
+            { start: "08:00", end: "10:00", event: "GYM - Build the Machine", pillar: "learning", tag: "DEEP SESSION" },
+            { start: "10:00", end: "10:30", event: "Shower + Protien Breakfast", pillar: "fitness", tag: "" },
+            { start: "10:00", end: "10:30", event: "Shower + Protien Breakfast", pillar: "fitness", tag: "" },
             { start: "10:30", end: "11:00", event: "Read: Psycho-Cybernetics", pillar: "learning", tag: "PRIMING" },
-            { phase: "WORK 11:00–20:30", start: "11:00", end: "11:15", event: "Login + Quick Scan", pillar: "routine", tag: "15 MIN" },
-            { start: "11:15", end: "13:30", event: "DEEP WORK — Block 1", pillar: "productivity", tag: "PEAK FOCUS" },
+            { phase: "WORK", phaseTime: "11:00 - 20:30", start: "11:00", end: "11:15", event: "Login + Quick Scan", pillar: "routine", tag: "15 Min" },
+            { start: "11:15", end: "13:30", event: "DEEP WORK - Block 1", pillar: "productivity", tag: "PEAK FOCUS" },
             { start: "13:30", end: "14:00", event: "Wrap Block 1 + Prep", pillar: "productivity", tag: "" },
             { start: "14:00", end: "15:00", event: "Lunch + Walk + Screen Break", pillar: "recovery", tag: "RECHARGE" },
-            { start: "15:00", end: "17:45", event: "DEEP WORK — Block 2", pillar: "productivity", tag: "POWER BLOCK" },
-            { start: "17:45", end: "18:00", event: "Pre-Calls Prep", pillar: "productivity", tag: "" },
-            { start: "18:00", end: "20:30", event: "Standups + Stakeholder Calls", pillar: "productivity", tag: "DYNAMIC" },
-            { phase: "POST-WORK", start: "20:30", end: "21:00", event: "Dinner — Clean Fuel", pillar: "fitness", tag: "" },
-            { start: "21:00", end: "22:00", event: "Time with Abe", pillar: "personal", tag: "SACRED" },
-            { start: "22:00", end: "22:45", event: "Learning — Courses", pillar: "learning", tag: "SKILL" },
-            { start: "22:45", end: "23:00", event: "Night Ritual + Journal", pillar: "routine", tag: "LOG" },
-            { start: "23:00", end: "07:00", event: "SLEEP — Full Recovery", pillar: "recovery", tag: "8 HRS" },
+            { start: "15:00", end: "17:45", event: "DEEP WORK - Block 2", pillar: "productivity", tag: "POWER BLOCK" },
+            { start: "17:45", end: "18:30", event: "Standups + Stakeholder Calls", pillar: "productivity", tag: "DYNAMIC" },
+            { phase: "POST - WORK", phaseTime: "11:00 - 20:30", start: "20:30", end: "21:00", event: "Dinner - Clean Fuel", pillar: "fitness", tag: "" },
+            { start: "21:30", end: "22:00", event: "Time with Abe", pillar: "personal", tag: "SACRED" },
+            { start: "22:00", end: "22:45", event: "Learning - Course", pillar: "learning", tag: "SKILL", highlight: true },
+            { start: "22:45", end: "23:00", event: "Night Ritual + journal", pillar: "routine", tag: "LOG" },
+            { start: "23:00", end: "07:00", event: "SLEEP - Full Recovery", pillar: "routine", tag: "" },
         ];
 
         const COURSES = { 0: "Review + Obsidian", 1: "Finance", 2: "AI / ML", 3: "Vibe Coding", 4: "Finance", 5: "AI / ML", 6: "Vibe Coding Project" };
         const GYM = { 0: "Rest / Recovery", 1: "Push (Chest/Shoulders/Tri)", 2: "Pull (Back/Biceps)", 3: "Legs + HIIT", 4: "Push (Chest/Shoulders/Tri)", 5: "Pull (Back/Biceps)", 6: "Legs + HIIT" };
 
         const QUOTES = [
+            { t: "Remember you have Family (\"Mom, Sister, Wife)...", a: "" },
             { t: "The self-image is the key to human personality and behavior.", a: "Maxwell Maltz" },
             { t: "You act and feel not according to what things are really like, but according to the image your mind holds.", a: "Maxwell Maltz" },
             { t: "Within you right now is the power to do things you never dreamed possible.", a: "Maxwell Maltz" },
             { t: "We must have courage to bet on our ideas, to take the calculated risk, and to act.", a: "Maxwell Maltz" },
             { t: "Close scrutiny will show that most crisis situations are opportunities to either advance, or stay where you are.", a: "Maxwell Maltz" },
             { t: "Accept yourself. Be yourself. You don't have to prove yourself.", a: "Maxwell Maltz" },
-            { t: "A human being always acts and performs in accordance with what he imagines to be true about himself.", a: "Maxwell Maltz" },
         ];
 
-        const PHASE_COLORS = { "PRE-WORK": "#FFA801", "WORK 11:00–20:30": "#FF3F34", "POST-WORK": "#A55EEA" };
+        const PHASE_COLORS = {
+            "PRE-WORK": "#FDA501",
+            "WORK": "#DB1C0E",
+            "POST - WORK": "#9C5CE9"
+        };
 
         const TAG_COLORS = {
-            "DEEP SESSION": "#FF3F34", "PEAK FOCUS": "#FFA801", "POWER BLOCK": "#FFA801",
-            "PRIMING": "#05C46B", "SKILL": "#05C46B", "RECHARGE": "#2ED573",
-            "DYNAMIC": "#3C91E6", "15 MIN": "#FC5C65", "LOG": "#A55EEA",
-            "SACRED": "#FC5C65", "8 HRS": "#2ED573",
+            "DEEP SESSION": "#DB1C0E",
+            "PEAK FOCUS": "#FFA401",
+            "POWER BLOCK": "#FFA401",
+            "PRIMING": "#05C161",
+            "SKILL": "#05C161",
+            "RECHARGE": "#2ED573",
+            "DYNAMIC": "#3C91E6",
+            "15 Min": "#DB1C0E",
+            "LOG": "#9C5CE9",
+            "SACRED": "#DB1C0E",
+        };
+
+        const TAG_BG = {
+            "DEEP SESSION": "#140f1b",
+            "PEAK FOCUS": "#2d3530",
+            "POWER BLOCK": "#2d3530",
+            "PRIMING": "#2d3530",
+            "SKILL": "#2d3530",
+            "RECHARGE": "#2d3530",
+            "DYNAMIC": "#272e36",
+            "15 Min": "#140f1b",
+            "LOG": "#3a3145",
+            "SACRED": "#140f1b",
         };
 
         const RULES = [
-            { id: "R1", text: "Don't negotiate with cravings. Execute replacement.", color: "#FF3F34" },
-            { id: "R2", text: "No fried food. You're fueling a machine.", color: "#FF3F34" },
-            { id: "R3", text: "Phone airplane mode at 23:00.", color: "#FF3F34" },
-            { id: "R4", text: "Missed gym? Walk 30 min. No zero days.", color: "#FF3F34" },
-            { id: "R5", text: "Email + LinkedIn = 15 min timer.", color: "#FFA801" },
-            { id: "R6", text: "Deep Work = DND, one task at a time.", color: "#FFA801" },
-            { id: "R7", text: "Call gaps = learning, not scrolling.", color: "#FFA801" },
-            { id: "R8", text: "Finish one course before starting another.", color: "#05C46B" },
-            { id: "R9", text: "Every session → one Obsidian note.", color: "#05C46B" },
-            { id: "R10", text: "Track streaks daily. Streaks build identity.", color: "#A55EEA" },
+            "R1: A Giga Chad does not negotiate with cravings. Execute the replacement. Every. Single. Time.",
+            "R2: No fried food enters this body. You're fuelling a machine, not comforting a habit.",
+            "R3: Phone → airplane mode at 23:00. Sleep is where muscle and discipline recharge.",
+            "R4: Missed the gym? Walk 30 minutes minimum. Zero-day rule: never score 0 on any pillar.",
         ];
 
         function toMin(t) { const [h, m] = t.split(":").map(Number); return h * 60 + m; }
@@ -103,23 +120,22 @@
 
         // Custom voice lines for each schedule block
         const ANNOUNCEMENTS = {
-            "Wake + Time with Abe": "Good morning, Giga Chad. Time with Abe. No phone. Be present.",
+            "Wake up + Time with Abe": "Good morning, Giga Chad. Time with Abe. No phone. Be present.",
             "Freshen Up + Pre-Workout": "Get gym ready. Fuel up. You know what you're hitting today.",
-            "GYM — Build the Machine": "Gym time. Build the machine. Progressive overload. Push your limits.",
-            "Shower + Protein Breakfast": "Protein breakfast. Zero fried food. Fuel the machine.",
+            "GYM - Build the Machine": "Gym time. Build the machine. Progressive overload. Push your limits.",
+            "Shower + Protien Breakfast": "Protein breakfast. Zero fried food. Fuel the machine.",
             "Read: Psycho-Cybernetics": "Reading time. Psycho Cybernetics. Program the self-image before work.",
             "Login + Quick Scan": "Quick scan only. 15 minutes max. Emails, LinkedIn, Top 3 tasks. Set the timer.",
-            "DEEP WORK — Block 1": "Deep Work Block 1. Peak focus. Phone on D N D. Attack task number 1. Let's go.",
+            "DEEP WORK - Block 1": "Deep Work Block 1. Peak focus. Phone on D N D. Attack task number 1. Let's go.",
             "Wrap Block 1 + Prep": "Wrap up Block 1. Check messages. Prep task number 2.",
             "Lunch + Walk + Screen Break": "Lunch and screen break. Walk after eating. Hydrate. Recharge.",
-            "DEEP WORK — Block 2": "Deep Work Block 2. Power block. Complete tasks 2 and 3. No coasting.",
-            "Pre-Calls Prep": "Pre-calls prep. Update the agility board. Get your talking points ready.",
+            "DEEP WORK - Block 2": "Deep Work Block 2. Power block. Complete tasks 2 and 3. No coasting.",
             "Standups + Stakeholder Calls": "Calls block starting. Use the gaps for learning, not scrolling.",
-            "Dinner — Clean Fuel": "Dinner time. Clean fuel only. High protein. Not in front of a screen.",
+            "Dinner - Clean Fuel": "Dinner time. Clean fuel only. High protein. Not in front of a screen.",
             "Time with Abe": "Time with Abe. Be fully present. No multitasking.",
-            "Learning — Courses": "Learning hour. Course time. End with one Obsidian note.",
-            "Night Ritual + Journal": "Night ritual. Rate your 4 pillars. Log the win. Update streaks. Phone on airplane mode.",
-            "SLEEP — Full Recovery": "Lights out. 8 hours of recovery. The Giga Chad doesn't negotiate with sleep.",
+            "Learning - Course": "Learning hour. Course time. End with one Obsidian note.",
+            "Night Ritual + journal": "Night ritual. Rate your 4 pillars. Log the win. Update streaks. Phone on airplane mode.",
+            "SLEEP - Full Recovery": "Lights out. 8 hours of recovery. The Giga Chad doesn't negotiate with sleep.",
         };
 
         function speak(text) {
@@ -163,13 +179,13 @@
 
         function toggleMute() {
             isMuted = !isMuted;
-            const btn = document.getElementById("muteBtn");
-            btn.textContent = isMuted ? "🔇" : "🔊";
-            btn.classList.toggle("muted", isMuted);
+            const toggle = document.getElementById("toggleSwitch");
+            if (toggle) {
+                toggle.classList.toggle("off", isMuted);
+            }
             if (isMuted) {
                 window.speechSynthesis && window.speechSynthesis.cancel();
             } else {
-                // Test voice on unmute
                 speak("Announcements on.");
             }
         }
@@ -199,54 +215,65 @@
                 if (check >= sMin && check < eMin) activeIdx = i;
             });
 
-            const phase = nowMin < 660 ? "PRE-WORK" : nowMin < 1230 ? "WORK 11:00–20:30" : "POST-WORK";
+            const phase = nowMin < 660 ? "PRE-WORK" : nowMin < 1230 ? "WORK" : "POST - WORK";
             const phColor = PHASE_COLORS[phase];
 
-            // Header
+            // Header — matches Figma layout
             document.getElementById("hdr").innerHTML = `
     <div class="hdr-left">
       <div>
         <div class="hdr-logo">Project</div>
         <div class="hdr-title"><span>Giga-Chad</span> Ops</div>
       </div>
-      <div class="hdr-date">${days[dow]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}</div>
-      <div class="hdr-phase" style="color:${phColor};background:${phColor}12;border:1px solid ${phColor}25">${phase}</div>
-      ${activeIdx >= 0 ? `<div class="hdr-now" style="color:var(--red);background:rgba(255,63,52,0.08);border:1px solid rgba(255,63,52,0.15)"><span class="hdr-now-dot"></span>NOW: ${SCHEDULE[activeIdx].event}</div>` : ""}
+      <div class="hdr-phase" style="color:${phColor};border:1px solid ${phColor}">${phase}</div>
+      ${activeIdx >= 0 ? `<div class="hdr-now"><span class="hdr-now-dot"></span>NOW: ${SCHEDULE[activeIdx].event}</div>` : ""}
     </div>
-    <div class="hdr-right">
-      <div class="hdr-clock">${hh}:${mm}</div>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div class="hdr-announce">
+        <span class="hdr-announce-icon">🔊</span>
+        <span>Announcements</span>
+        <div class="toggle-switch ${isMuted ? 'off' : ''}" id="toggleSwitch" onclick="toggleMute()">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+      <div class="hdr-right">
+        <div class="hdr-clock">${hh}:${mm}</div>
+        <div class="hdr-date">${days[dow]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}</div>
+      </div>
     </div>`;
 
-            // KPIs
+            // KPIs — matches Figma: bold values with color, uppercase labels
             const kpis = [
-                { v: "~5h", l: "Deep Work", c: "#FFA801" },
-                { v: "~1.5h", l: "Learning", c: "#05C46B" },
-                { v: "2h", l: "Gym", c: "#FF3F34" },
-                { v: "8h", l: "Sleep", c: "#2ED573" },
-                { v: "30m", l: "Book", c: "#3C91E6" },
+                { v: "~5h", l: "DEEP WORK", c: "#FFA401" },
+                { v: "~1.5h", l: "LEARNING", c: "#05C161" },
+                { v: "2h", l: "GYM", c: "#FF3F34" },
+                { v: "8h", l: "SLEEP", c: "#2ED573" },
+                { v: "30m", l: "BOOK", c: "#3C91E6" },
             ];
             document.getElementById("kpiBar").innerHTML = kpis.map(k =>
                 `<div class="kpi"><div class="kpi-val" style="color:${k.c}">${k.v}</div><div class="kpi-lbl">${k.l}</div></div>`
             ).join("");
 
-            // Schedule
+            // Schedule — left column, matches Figma
             let schedHTML = "";
             let lastPhase = "";
             SCHEDULE.forEach((s, i) => {
                 if (s.phase && s.phase !== lastPhase) {
                     lastPhase = s.phase;
                     const pc = PHASE_COLORS[s.phase] || "#52525b";
-                    schedHTML += `<div class="phase-lbl" style="color:${pc};background:${pc}10;border:1px solid ${pc}20">${s.phase}</div>`;
+                    schedHTML += `<div class="phase-lbl" style="color:${pc};border:1px solid ${pc};background:#140f1b">${s.phase}   ${s.phaseTime || ''}</div>`;
                 }
                 const p = PILLARS[s.pillar];
                 const isNow = i === activeIdx;
                 const tc = TAG_COLORS[s.tag] || "#52525b";
+                const tbg = TAG_BG[s.tag] || "#140f1b";
+                const timeDisplay = `${s.start.replace(":", " : ")}  -  ${s.end.replace(":", " : ")}`;
                 schedHTML += `
       <div class="row${isNow ? " now" : ""}">
-        <span class="r-time">${s.start} – ${s.end}</span>
+        <span class="r-time">${timeDisplay}</span>
         <span class="r-pip" style="background:${p.color}"></span>
         <span class="r-ev">${isNow ? "▸ " : ""}${s.event}</span>
-        ${s.tag ? `<span class="r-tag" style="color:${tc};background:${tc}12;border:1px solid ${tc}25">${s.tag}</span>` : "<span></span>"}
+        ${s.tag ? `<span class="r-tag" style="color:${tc};background:${tbg};border:1px solid ${tc}">${s.tag}</span>` : "<span></span>"}
       </div>`;
             });
             document.getElementById("sched").innerHTML = schedHTML;
@@ -254,72 +281,98 @@
             // Check for block transition and announce
             checkAndAnnounce(activeIdx);
 
-            // Panel
+            // Right Panel — matches Figma exactly
             const course = COURSES[dow] || "—";
-            const gym = GYM[dow] || "—";
             const quote = QUOTES[dow % QUOTES.length];
 
-            const courseColor = course.includes("Finance") ? "#FFA801" : course.includes("AI") ? "#A55EEA" : course.includes("Vibe") ? "#05C46B" : "#2ED573";
-
             document.getElementById("panel").innerHTML = `
+    <!-- NOW Badge -->
+    ${activeIdx >= 0 ? `<div class="pnl-sec">
+      <div class="pnl-now-badge"><span class="pnl-now-dot"></span>NOW: ${SCHEDULE[activeIdx].event}</div>
+    </div>` : ""}
+
+    <!-- Learning Rotation Card -->
     <div class="pnl-sec">
-      <div class="pnl-title">Today's Rotation</div>
-      <div class="rot-row">
-        <span class="rot-lbl">📖 Book</span>
-        <span class="rot-val" style="color:#3C91E6">Psycho-Cybernetics</span>
-      </div>
-      <div class="rot-row">
-        <span class="rot-lbl">📚 Course</span>
-        <span class="rot-val" style="color:${courseColor}">${course}</span>
-      </div>
-      <div class="rot-row">
-        <span class="rot-lbl">🏋️ Gym</span>
-        <span class="rot-val" style="color:var(--red)">${gym}</span>
+      <div class="dark-card">
+        <p class="card-text">Rotate: Mon & thu = Finance, Tue & Fri = AI/ML, Wed & Sat = Vibe Coding. Sunday = Review + Obsidian clean up. End each session with one Obsidian note summarizing what you learned. If you can't write it down, you didn't learn.</p>
       </div>
     </div>
 
+    <!-- Urge Protocol -->
     <div class="pnl-sec">
-      <div class="pnl-title">Streak Tracker</div>
-      <div class="streak-grid">
-        ${[
-                    { l: "Gym", c: "#FF3F34" },
-                    { l: "Smoke-Free", c: "#2ED573" },
-                    { l: "Clean Content", c: "#A55EEA" },
-                    { l: "Deep Work", c: "#FFA801" },
-                    { l: "Book Read", c: "#3C91E6" },
-                    { l: "Course Done", c: "#05C46B" },
-                ].map(s => `
-          <div class="streak-item">
-            <div class="streak-dot" style="background:${s.c};box-shadow:0 0 6px ${s.c}40"></div>
-            <span class="streak-lbl">${s.l}</span>
-          </div>`).join("")}
+      <div class="pnl-title gradient-fire">URGE PROTOCOL</div>
+      <div class="pnl-subtitle">You have a 3 - seconds decision window when the urge hits. Don't negotiate - Execute the replacement. The cravings passes in 10-15 minutes. Survive that window and you win.</div>
+      <div class="urge-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <span class="urge-emoji">🚭</span>
+          <span class="urge-label">Cigarette Cravings</span>
+        </div>
+        <div class="urge-desc">10 Pushups + 4-7-8 breathing (3 rounds). Craving die in 10 Min</div>
+        <div class="dots-indicator">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
       </div>
     </div>
 
+    <!-- Things to Consider -->
     <div class="pnl-sec">
-      <div class="pnl-title">Urge Protocol</div>
-      <div class="urge-box">
-        <strong>Craving?</strong> 3-second window.<br>
-        🚭 Smoke → <span class="replacement">10 pushups + breathe</span><br>
-        📵 Scroll → <span class="replacement">Close app + 5 min walk</span><br>
-        🛡️ Urge → <span class="replacement">Cold water + Obsidian</span><br>
-        <strong>It passes in 10 min.</strong>
+      <div class="quote-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <span style="font-size:28px;opacity:0.4;transform:rotate(180deg);display:inline-block;">❝</span>
+          <span class="quote-title gradient-green-fire">THINGS TO CONSIDER</span>
+        </div>
+        <div class="quote-text">${quote.t}</div>
+        ${quote.a ? `<div class="quote-author">— ${quote.a}</div>` : ""}
+        <div class="dots-indicator">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
       </div>
     </div>
 
+    <!-- Non-Negotiable Ground Rules -->
     <div class="pnl-sec">
-      <div class="pnl-title">Ground Rules</div>
-      ${RULES.map(r => `
-        <div class="rules-row">
-          <span class="rule-id" style="color:${r.color}">${r.id}</span>
-          <span>${r.text}</span>
-        </div>`).join("")}
+      <div class="pnl-title gradient-blue-purple">NON-NEGOTIABLE GROUND RULES</div>
+      <div class="rules-card">
+        <div class="rules-identity">
+          <span class="lock-icon">🔒</span>
+          <span class="identity-label">IDENTITY</span>
+        </div>
+        <div class="rules-text">
+          ${RULES.map(r => `<p>${r}</p>`).join("")}
+        </div>
+        <div class="dots-indicator">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
     </div>
 
+    <!-- Call-Gap Playbook -->
     <div class="pnl-sec">
-      <div class="pnl-title">Self-Image</div>
-      <div class="quote-text">"${quote.t}"</div>
-      <div class="quote-author">— ${quote.a}</div>
+      <div class="pnl-title gradient-red-blue">CALL-GAP PLAYBOOK (18:00 - 20:30)</div>
+      <div class="pnl-subtitle">Your call block is dynamic — that's reality. But gap time is NOT free time. Every gap has a purpose. The old you scrolls during gaps. The Giga Chad learns.</div>
+      <div class="callgap-card">
+        <div class="callgap-title">30-min break between calls</div>
+        <div class="callgap-row">
+          <span class="callgap-arrow">→</span>
+          <span>Quick Obsidian review or flashcard drill on current course topic</span>
+        </div>
+        <div class="dots-indicator">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
     </div>
 
     <div class="footer">Auto-refresh 30s · Voice ${isMuted ? "OFF" : "ON"} · ${hh}:${mm}</div>
